@@ -1,8 +1,7 @@
-// my-theme.ts
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme } from "styled-components";
 
 const defaultTheme: DefaultTheme = {
-  appTheme: "dark"
+  appTheme: "dark",
 };
 
 export default defaultTheme;

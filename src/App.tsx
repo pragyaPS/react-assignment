@@ -9,18 +9,17 @@ import {
   SelecteIds,
   LoaderContainer,
 } from "./App.style";
-import { Icountry, IappProps } from './App.interface'
+import { Icountry, IappProps } from "./App.interface";
 
 const tableHeader = [
-  { label: "select", value: "", columnId: "1"},
-  { label: "Id", value: "_id" , columnId: "2"},
+  { label: "select", value: "", columnId: "1" },
+  { label: "Id", value: "_id", columnId: "2" },
   { label: "country", value: "name", columnId: "3" },
 ];
 
-
 export const COUNTRY_LIST = gql`
   query getCountryList($count: Int) {
-    Country(first: $count ) {
+    Country(first: $count) {
       _id
       name
     }
@@ -32,7 +31,7 @@ function App(props: IappProps) {
   const { data, loading, error } = useQuery(COUNTRY_LIST, {
     variables: { count: countriesCount },
   });
-  const [selectedRows, setSelectedRows] = useState<Icountry[] >([]);
+  const [selectedRows, setSelectedRows] = useState<Icountry[]>([]);
   const selectedIds = selectedRows.map((row) => row._id);
 
   if (loading)
@@ -42,9 +41,12 @@ function App(props: IappProps) {
       </LoaderContainer>
     );
 
-  if (error) return `Error! ${error.message}`;
+  if (error) return (<div>Error! {error.message}</div>);
 
-  const handleRowSelect = (event:ChangeEvent<HTMLInputElement>, currentRow: Icountry) => {
+  const handleRowSelect = (
+    event: ChangeEvent<HTMLInputElement>,
+    currentRow: Icountry
+  ) => {
     let isRowChecked = event.target.checked;
     if (isRowChecked) {
       setSelectedRows([...selectedRows, currentRow]);

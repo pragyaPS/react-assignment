@@ -6,7 +6,7 @@ export interface ItableHeader {
 }
 export interface ItableProps {
   rows: any[];
-  tableHeader: ItableHeader[];
-  handleRowSelect: (event: ChangeEvent<HTMLInputElement>, row: any) => void;
-  className: string;
+  tableHeader?: ItableHeader[];
+  handleRowSelect?: (event: ChangeEvent<HTMLInputElement>, row: any) => void;
+  className?: string;
 }
