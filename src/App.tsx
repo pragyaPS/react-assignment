@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from "react";
-import { useQuery, gql, from } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import Table from "./component/Table/table";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {
@@ -9,7 +9,7 @@ import {
   SelecteIds,
   LoaderContainer,
 } from "./App.style";
-import { Icountry } from './App.interface'
+import { Icountry, IappProps } from './App.interface'
 
 const tableHeader = [
   { label: "select", value: "", columnId: "1"},
@@ -27,7 +27,8 @@ export const COUNTRY_LIST = gql`
   }
 `;
 
-function App({ countriesCount }: any) {
+function App(props: IappProps) {
+  const { countriesCount } = props;
   const { data, loading, error } = useQuery(COUNTRY_LIST, {
     variables: { count: countriesCount },
   });
