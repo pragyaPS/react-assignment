@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useQuery, gql } from "@apollo/client";
 import Table from "./component/Table/table";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,28 +8,30 @@ import {
   Pre,
   SelecteIds,
   LoaderContainer,
-} from "./App-style";
+} from "./App.style";
+import { Icountry, IappProps } from "./App.interface";
 
 const tableHeader = [
-  { label: "select", columnId: "1" },
-  { label: "Id", columnId: "2" },
-  { label: "country", columnId: "3" },
+  { label: "select", value: "", columnId: "1" },
+  { label: "Id", value: "_id", columnId: "2" },
+  { label: "country", value: "name", columnId: "3" },
 ];
 
 export const COUNTRY_LIST = gql`
-  query getCountryList($nameIn: [String!]) {
-    Country(filter: { name_in: $nameIn }) {
+  query getCountryList($count: Int) {
+    Country(first: $count) {
       _id
       name
     }
   }
 `;
 
-function App({ countryList }) {
+function App(props: IappProps) {
+  const { countriesCount } = props;
   const { data, loading, error } = useQuery(COUNTRY_LIST, {
-    variables: { nameIn: countryList },
+    variables: { count: countriesCount },
   });
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState<Icountry[]>([]);
   const selectedIds = selectedRows.map((row) => row._id);
 
   if (loading)
@@ -39,9 +41,12 @@ function App({ countryList }) {
       </LoaderContainer>
     );
 
-  if (error) return `Error! ${error.message}`;
+  if (error) return (<div>Error! {error.message}</div>);
 
-  const handleRowSelect = (event, currentRow) => {
+  const handleRowSelect = (
+    event: ChangeEvent<HTMLInputElement>,
+    currentRow: Icountry
+  ) => {
     let isRowChecked = event.target.checked;
     if (isRowChecked) {
       setSelectedRows([...selectedRows, currentRow]);
