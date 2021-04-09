@@ -6,7 +6,7 @@ const mocks = [
   {
     request: {
       query: COUNTRY_LIST,
-      variables: { nameIn: ["test"] },
+      variables: { count: 1 },
     },
     result: {
       data: {
@@ -22,7 +22,7 @@ const mocks = [
   {
     request: {
       query: COUNTRY_LIST,
-      variables: { nameIn: ["Error"] },
+      variables: { count: 2 },
     },
     error: new Error("An error occurred"),
   },
@@ -31,7 +31,7 @@ afterEach(cleanup);
 test("should show Error message when exception thrown", async () => {
   const wrapperComponent = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <App countryList={["Error"]} />
+      <App countriesCount={2} />
     </MockedProvider>
   );
   const txt = await wrapperComponent.findByText("Error! An error occurred");
@@ -41,7 +41,7 @@ test("should show Error message when exception thrown", async () => {
 test("should load data when country list fetched", async () => {
   const { findByText } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <App countryList={["test"]} />
+      <App countriesCount={1} />
     </MockedProvider>
   );
   const txt = await findByText("test");
