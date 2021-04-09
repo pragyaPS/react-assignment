@@ -1,8 +1,20 @@
 import { Table as StyledTable, Th, Td } from "./table.style";
 import { PARAM_NO_RECORD_FOUND } from "../../utils/constants";
 import { isEmpty } from "../../utils/util";
+import { ChangeEvent } from 'react';
+interface ItableHeader {
+  label: string,
+  value: string,
+  columnId: string
+}
+interface ItableProps {
+  rows: any[],
+  tableHeader: ItableHeader[],
+  handleRowSelect: (event: ChangeEvent<HTMLInputElement>, row: any) => void,
+  className: string
+}
 
-const Table = ({ rows, tableHeader, handleRowSelect, className }) => (
+const Table = ({ rows, tableHeader, handleRowSelect, className }: ItableProps) => (
   <StyledTable className={className}>
     <thead>
       <tr>
